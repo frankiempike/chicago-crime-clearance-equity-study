@@ -22,15 +22,26 @@ The analysis is organized into a sequential pipeline:
 5. `05_analyze_unsolved_rate_by_crime_location.sql`: Comparing clearance across physical and digital spaces.
 6. `06_analyze_unsolved_rate_by_community_low_income_rate.sql`: Analyzing the "Justice Gap" across poverty tiers.
 7. `07_analyze_unsolved_by_community_wealth_and_offense_type.sql`: Intersectional analysis of wealth and crime severity.
-8. `08_analyze_violent_crimes_by_wealth_and_location.sql`: Targeted look at violent crime clearance in specific contexts.
-9. `09_view_examples_of_other_locations.sql`: Data validation and discovery for "unclassified" location descriptions.
+8. `08_analyze_violent_crimes_by_location.sql`: Targeted look at violent crime clearance in specific areas.
+9. `09_analyze_violent_crimes_by_wealth_and_location.sql`: Targeted look at violent crime clearance in specific contexts.
+10. `10_view_examples_of_other_locations.sql`: Data validation and discovery for "unclassified" location descriptions.
 * `data_samples/`: Small CSV exports of the final transformed dataset for preview.
 
 ## How to Reproduce
-This pipeline relies on three primary data sources from the Chicago Data Portal. To replicate the results, follow these steps:
-1.  **Crime Data:** Access the `bigquery-public-data.chicago_crime.crime` table in the BigQuery console.
-2.  **Boundary Mapping:** Download the [Boundaries - Community Areas](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-Map/cauq-8yn6) dataset. Upload this to BigQuery as `community_ids`.
-3.  **Socioeconomic Data:** Download the [ACS 5-Year Data by Community Area](https://data.cityofchicago.org/Community-Economic-Development/ACS-5-Year-Data-by-Community-Area/t68z-cikk/about_data) (2023 release). Upload this to BigQuery as `community_summaries`.
-4.  **Execute Pipeline:** Run the scripts in the `/sql_scripts` folder in numerical order (01–09). These scripts handle data cleaning, the classification logic for digital crimes, and the final enrichment joins.
+This pipeline is designed in two phases: **Data Engineering** (Scripts 01-03) and **Analysis** (Scripts 04-10).
+
+### Option A: Full Pipeline Reproduction
+If you wish to rebuild the entire master table from scratch:
+1.  **Crime Data:** Access `bigquery-public-data.chicago_crime.crime`.
+2.  **Boundary Mapping:** Download the [Boundaries - Community Areas](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-Map/cauq-8yn6) dataset and upload as `community_ids`.
+3.  **Socioeconomic Data:** Download the [2023 ACS 5-Year Data](https://data.cityofchicago.org/Community-Economic-Development/ACS-5-Year-Data-by-Community-Area/t68z-cikk/about_data) and upload as `community_summaries`.
+4.  Execute scripts `01` through `03` to generate the master table.
+
+### Option B: Quick Analysis (Start Here)
+If you want to skip the data engineering and jump straight to the insights, use the provided sample:
+1.  Navigate to `/data_samples/crime_analysis_sample.csv`.
+2.  This file is a pre-cleaned, pre-joined sample of the final master table.
+3.  Upload this CSV to BigQuery as `crime_analysis_by_community`.
+4.  **Run scripts 04 through 09** to see the analysis logic in action.
 
 ---
