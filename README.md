@@ -42,6 +42,6 @@ If you want to skip the data engineering and jump straight to the insights, use 
 1.  Navigate to `/data_samples/crime_analysis_sample.csv`.
 2.  This file is a pre-cleaned, pre-joined sample of the final master table.
 3.  Upload this CSV to BigQuery as `crime_analysis_by_community`.
-4.  **Run scripts 04 through 09** to see the analysis logic in action.
+4.  **Run scripts 04 through 10** to see the analysis logic in action.
 
 ---
