@@ -1,5 +1,5 @@
 CREATE OR REPLACE TABLE `chicago_justice.crime_analysis_by_community` AS
-SELECT
+SELECT -- noqa: AM04
     c.*,
     s.* EXCEPT (community_area)
 FROM `chicago_justice.crime_data` AS c
