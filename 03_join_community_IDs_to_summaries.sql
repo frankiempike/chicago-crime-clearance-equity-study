@@ -1,0 +1,1 @@
+REPLACE TABLE `chicago_justice.community_summaries` AS
