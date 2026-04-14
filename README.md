@@ -1,12 +1,13 @@
 # Analysis of Chicago Crime Clearance Rates Across Communities, Socioeconomic Factors, and Types of Crimes (2020–2026)
 
 ## Project Overview
-This project investigates the relationship between community income and crime "clearance rates" (arrests) across Chicago's 77 community areas. By joining live crime data from the Chicago Data Portal with ACS Census socioeconomic indicators, this analysis identifies where "Justice Gaps" exist based on income and location type.
+This project investigates the relationship between community income and crime "clearance rates" (arrests) across Chicago's 77 community areas. By joining live crime data from the Chicago Data Portal with ACS 5-Year Data by Community Area, this analysis identifies where "justice gaps" exist based on socioeconomic factors and where the crime occurred.
 
 ## Key Insights & Features
-* **Digital Crime Classification:** Traditional reporting often marks digital crimes as 'Other' locations. I implemented a pattern-matching algorithm using `LIKE` operators to correctly categorize **[X]** incidents as **Online/Digital**, revealing a **[Y]%** lower arrest rate compared to physical-world property crimes.
-* **Community Enrichment:** Engineered a bridge between disparate datasets—Chicago Crime records (IDs) and Socioeconomic reports (Names)—to create a unified community-level view.
-* **Granular Clearance Analysis:** Developed comparative metrics for "Unsolved" percentages across wealth tiers, location types, and offense categories.
+* **Digital Crime Classification:** Identified a critical gap where traditional reporting misclassifies digital fraud as 'Other' or 'Unknown' locations. I engineered pattern-matching logic to correctly categorize **11,257** incidents as **Online**. 
+* **The Clearance Gap:** My analysis revealed that Online crimes have a near-zero arrest rate of **0.16%**, representing an **18.15% lower** clearance rate than crimes occurring in public spaces (18.31%).
+* **Modern Socioeconomic Benchmarking:** Utilized the 2023 ACS 5-Year Estimates to ensure income and poverty metrics are representative of the current post-2020 period.
+* **Official Geo-Relational Mapping:** Leveraged the Chicago Data Portal’s official boundary metadata to create a high-integrity link between Crime IDs and Community Area names, avoiding the inaccuracies of manual "fuzzy" matching.
 
 ## The Data Stack
 * **Google BigQuery (SQL):** Data warehousing, ETL, and analytical querying.
