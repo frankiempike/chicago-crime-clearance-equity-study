@@ -1,29 +1,141 @@
 CREATE OR REPLACE TABLE `chicago-justice-analysis.chicago_justice.crime_data` AS
-SELECT 
+SELECT
     date,
     year,
     community_area,
     unique_key,
     primary_type,
-    CASE 
-        WHEN primary_type IN ('HOMICIDE', 'ROBBERY', 'BURGLARY', 'BATTERY') THEN 'Violent/Safety'
-        WHEN primary_type IN ('NARCOTICS', 'PROSTITUTION', 'LIQUOR LAW VIOLATION') THEN 'Public Order/Non-Violent'
+    CASE
+        WHEN
+            primary_type IN ('HOMICIDE', 'ROBBERY', 'BURGLARY', 'BATTERY')
+            THEN 'Violent/Safety'
+        WHEN
+            primary_type IN (
+                'NARCOTICS', 'PROSTITUTION', 'LIQUOR LAW VIOLATION'
+            )
+            THEN 'Public Order/Non-Violent'
         WHEN primary_type IN ('THEFT', 'DECEPTIVE PRACTICE') THEN 'Property'
         ELSE 'Other'
     END AS offense_category,
     description,
     location_description,
-    CASE WHEN location_description IN ('APARTMENT', 'RESIDENCE', 'RESIDENCE - GARAGE', 'NURSING / RETIREMENT HOME', 'RESIDENCE - PORCH / HALLWAY', 'RESIDENCE - YARD (FRONT / BACK)', 'CHA APARTMENT', 'DRIVEWAY - RESIDENTIAL', 'CHA PARKING LOT / GROUNDS', 'CHA HALLWAY / STAIRWELL / ELEVATOR', 'RESIDENCE PORCH/HALLWAY', 'RESIDENTIAL YARD (FRONT/BACK)', 'RESIDENCE-GARAGE', 'HOUSE', 'NURSING HOME/RETIREMENT HOME') THEN 'Residential'
-        WHEN location_description IN ('STREET', 'SIDEWALK', 'ALLEY', 'SCHOOL - PUBLIC BUILDING', 'SCHOOL - PUBLIC GROUNDS', 'CTA TRAIN', 'PARK PROPERTY', 'CTA BUS', 'CTA PLATFORM', 'POLICE FACILITY / VEHICLE PARKING LOT', 'VACANT LOT / LAND', 'CTA STATION', 'GOVERNMENT BUILDING / PROPERTY', 'CTA BUS STOP', 'LIBRARY', 'AIRPORT PARKING LOT', 'AIRPORT TERMINAL LOWER LEVEL - NON-SECURE AREA', 'CTA PARKING LOT / GARAGE / OTHER PROPERTY', 'SCHOOL, PUBLIC, BUILDING', 'AIRPORT BUILDING NON-TERMINAL - NON-SECURE AREA', 'AIRPORT TERMINAL UPPER LEVEL - NON-SECURE AREA', 'LAKEFRONT / WATERFRONT / RIVERBANK', 'AIRPORT EXTERIOR - NON-SECURE AREA', 'HIGHWAY / EXPRESSWAY', 'FIRE STATION', 'FEDERAL BUILDING', 'JAIL / LOCK-UP FACILITY', 'SCHOOL, PUBLIC, GROUNDS', 'BRIDGE', 'POLICE FACILITY/VEH PARKING LOT', 'FOREST PRESERVE', 'GOVERNMENT BUILDING/PROPERTY', 'CTA TRACKS - RIGHT OF WAY') THEN 'Public'
-        WHEN location_description IN ('PARKING LOT / GARAGE (NON RESIDENTIAL)', 'SMALL RETAIL STORE', '	RESTAURANT', 'DEPARTMENT STORE', 'RESTAURANT', 'BAR OR TAVERN', 'COMMERCIAL / BUSINESS OFFICE', 'GAS STATION', 'HOSPITAL BUILDING / GROUNDS', 'GROCERY FOOD STORE', 'HOTEL / MOTEL', 'CONVENIENCE STORE', 'DRUG STORE', 'BANK', 'TAVERN / LIQUOR STORE', 'MEDICAL / DENTAL OFFICE', 'SCHOOL - PRIVATE GROUNDS', 'CURRENCY EXCHANGE', 'SCHOOL - PRIVATE BUILDING', 'AUTO / BOAT / RV DEALERSHIP', 'WAREHOUSE', 'PARKING LOT/GARAGE(NON.RESID.)', 'BARBERSHOP', 'DAY CARE CENTER', 'SPORTS ARENA / STADIUM', 'APPLIANCE STORE', 'CAR WASH', 'FACTORY / MANUFACTURING BUILDING', 'CLEANING STORE', 'AIRPORT TERMINAL LOWER LEVEL - SECURE AREA', 'AIRPORT TERMINAL UPPER LEVEL - SECURE AREA', 'ATM (AUTOMATIC TELLER MACHINE)', 'MOVIE HOUSE / THEATER', 'AIRPORT EXTERIOR - SECURE AREA', 'AIRPORT BUILDING NON-TERMINAL - SECURE AREA', 'HOSPITAL BUILDING/GROUNDS', 'HOTEL/MOTEL', 'PAWN SHOP', 'CASINO/GAMBLING ESTABLISHMENT', 'BOWLING ALLEY', 'ANIMAL HOSPITAL', 'TAVERN/LIQUOR STORE', 'SPORTS ARENA/STADIUM', 'MEDICAL/DENTAL OFFICE', 'RETAIL STORE', 'GAS STATION DRIVE/PROP.') THEN 'Private/Business'
-        WHEN description LIKE '%COMPUTER%' 
-             OR description LIKE '%CREDIT CARD FRAUD%'
-             OR description LIKE '%IDENTITY THEFT%'
-             OR description LIKE '%FORGERY%'
-             AND primary_type = 'DECEPTIVE PRACTICE' 
-             AND location_description IN ('OTHER', 'UNKNOWN') 
-             THEN 'Online'
-        ELSE "Other" END AS location_type,
+    CASE
+        WHEN
+            location_description IN (
+                'APARTMENT',
+                'RESIDENCE',
+                'RESIDENCE - GARAGE',
+                'NURSING / RETIREMENT HOME',
+                'RESIDENCE - PORCH / HALLWAY',
+                'RESIDENCE - YARD (FRONT / BACK)',
+                'CHA APARTMENT',
+                'DRIVEWAY - RESIDENTIAL',
+                'CHA PARKING LOT / GROUNDS',
+                'CHA HALLWAY / STAIRWELL / ELEVATOR',
+                'RESIDENCE PORCH/HALLWAY',
+                'RESIDENTIAL YARD (FRONT/BACK)',
+                'RESIDENCE-GARAGE',
+                'HOUSE',
+                'NURSING HOME/RETIREMENT HOME'
+            )
+            THEN 'Residential'
+        WHEN
+            location_description IN (
+                'STREET',
+                'SIDEWALK',
+                'ALLEY',
+                'SCHOOL - PUBLIC BUILDING',
+                'SCHOOL - PUBLIC GROUNDS',
+                'CTA TRAIN',
+                'PARK PROPERTY',
+                'CTA BUS',
+                'CTA PLATFORM',
+                'POLICE FACILITY / VEHICLE PARKING LOT',
+                'VACANT LOT / LAND',
+                'CTA STATION',
+                'GOVERNMENT BUILDING / PROPERTY',
+                'CTA BUS STOP',
+                'LIBRARY',
+                'AIRPORT PARKING LOT',
+                'AIRPORT TERMINAL LOWER LEVEL - NON-SECURE AREA',
+                'CTA PARKING LOT / GARAGE / OTHER PROPERTY',
+                'SCHOOL, PUBLIC, BUILDING',
+                'AIRPORT BUILDING NON-TERMINAL - NON-SECURE AREA',
+                'AIRPORT TERMINAL UPPER LEVEL - NON-SECURE AREA',
+                'LAKEFRONT / WATERFRONT / RIVERBANK',
+                'AIRPORT EXTERIOR - NON-SECURE AREA',
+                'HIGHWAY / EXPRESSWAY',
+                'FIRE STATION',
+                'FEDERAL BUILDING',
+                'JAIL / LOCK-UP FACILITY',
+                'SCHOOL, PUBLIC, GROUNDS',
+                'BRIDGE',
+                'POLICE FACILITY/VEH PARKING LOT',
+                'FOREST PRESERVE',
+                'GOVERNMENT BUILDING/PROPERTY',
+                'CTA TRACKS - RIGHT OF WAY'
+            )
+            THEN 'Public'
+        WHEN
+            location_description IN (
+                'PARKING LOT / GARAGE (NON RESIDENTIAL)',
+                'SMALL RETAIL STORE',
+                '	RESTAURANT',
+                'DEPARTMENT STORE',
+                'RESTAURANT',
+                'BAR OR TAVERN',
+                'COMMERCIAL / BUSINESS OFFICE',
+                'GAS STATION',
+                'HOSPITAL BUILDING / GROUNDS',
+                'GROCERY FOOD STORE',
+                'HOTEL / MOTEL',
+                'CONVENIENCE STORE',
+                'DRUG STORE',
+                'BANK',
+                'TAVERN / LIQUOR STORE',
+                'MEDICAL / DENTAL OFFICE',
+                'SCHOOL - PRIVATE GROUNDS',
+                'CURRENCY EXCHANGE',
+                'SCHOOL - PRIVATE BUILDING',
+                'AUTO / BOAT / RV DEALERSHIP',
+                'WAREHOUSE',
+                'PARKING LOT/GARAGE(NON.RESID.)',
+                'BARBERSHOP',
+                'DAY CARE CENTER',
+                'SPORTS ARENA / STADIUM',
+                'APPLIANCE STORE',
+                'CAR WASH',
+                'FACTORY / MANUFACTURING BUILDING',
+                'CLEANING STORE',
+                'AIRPORT TERMINAL LOWER LEVEL - SECURE AREA',
+                'AIRPORT TERMINAL UPPER LEVEL - SECURE AREA',
+                'ATM (AUTOMATIC TELLER MACHINE)',
+                'MOVIE HOUSE / THEATER',
+                'AIRPORT EXTERIOR - SECURE AREA',
+                'AIRPORT BUILDING NON-TERMINAL - SECURE AREA',
+                'HOSPITAL BUILDING/GROUNDS',
+                'HOTEL/MOTEL',
+                'PAWN SHOP',
+                'CASINO/GAMBLING ESTABLISHMENT',
+                'BOWLING ALLEY',
+                'ANIMAL HOSPITAL',
+                'TAVERN/LIQUOR STORE',
+                'SPORTS ARENA/STADIUM',
+                'MEDICAL/DENTAL OFFICE',
+                'RETAIL STORE',
+                'GAS STATION DRIVE/PROP.'
+            )
+            THEN 'Private/Business'
+        WHEN
+            description LIKE '%COMPUTER%'
+            OR description LIKE '%CREDIT CARD FRAUD%'
+            OR description LIKE '%IDENTITY THEFT%'
+            OR description LIKE '%FORGERY%'
+            AND primary_type = 'DECEPTIVE PRACTICE'
+            AND location_description IN ('OTHER', 'UNKNOWN')
+            THEN 'Online'
+        ELSE 'Other'
+    END AS location_type,
     arrest
 FROM `bigquery-public-data.chicago_crime.crime`
 WHERE year >= 2020;

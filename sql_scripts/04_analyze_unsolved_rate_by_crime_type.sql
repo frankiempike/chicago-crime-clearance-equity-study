@@ -1,7 +1,8 @@
-SELECT 
-  primary_type,
-  COUNT(*) as total_incidents,
-  ROUND(100 - (AVG(CASE WHEN arrest THEN 1 ELSE 0 END) * 100), 2) as unsolved_percentage
+SELECT
+    primary_type,
+    COUNT(*) AS total_incidents,
+    ROUND(100 - (AVG(CASE WHEN arrest THEN 1 ELSE 0 END) * 100), 2)
+        AS unsolved_percentage
 FROM `chicago_justice.crime_analysis_by_community`
 GROUP BY 1
 HAVING COUNT(*) > 10

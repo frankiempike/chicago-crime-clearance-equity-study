@@ -1,37 +1,56 @@
-WITH CategoryMetrics AS (
-    SELECT 
-        CASE 
-            WHEN percent_less_than_50k <= 0.10 THEN '0-10%'
-            WHEN percent_less_than_50k <= 0.20 THEN '11-20%'
-            WHEN percent_less_than_50k <= 0.30 THEN '21-30%'
-            WHEN percent_less_than_50k <= 0.40 THEN '31-40%'
-            WHEN percent_less_than_50k <= 0.50 THEN '41-50%'
+WITH CATEGORYMETRICS AS (
+    SELECT
+        LOCATION_TYPE,
+        CASE
+            WHEN PERCENT_LESS_THAN_50K <= 0.10 THEN '0-10%'
+            WHEN PERCENT_LESS_THAN_50K <= 0.20 THEN '11-20%'
+            WHEN PERCENT_LESS_THAN_50K <= 0.30 THEN '21-30%'
+            WHEN PERCENT_LESS_THAN_50K <= 0.40 THEN '31-40%'
+            WHEN PERCENT_LESS_THAN_50K <= 0.50 THEN '41-50%'
             ELSE 'Over 50%'
-        END AS percent_of_community_making_less_than_50k,
-        location_type,
-        COUNT(*) AS total_crimes,
-        ROUND((COUNT(*) - SUM(CASE WHEN arrest THEN 1 ELSE 0 END)) / COUNT(*) * 100, 2) AS unsolved_percentage
+        END AS PERCENT_OF_COMMUNITY_MAKING_LESS_THAN_50K,
+        COUNT(*) AS TOTAL_CRIMES,
+        ROUND(
+            (COUNT(*) - SUM(CASE WHEN ARREST THEN 1 ELSE 0 END))
+            / COUNT(*)
+            * 100,
+            2
+        ) AS UNSOLVED_PERCENTAGE
     FROM `chicago_justice.crime_analysis_by_community`
-    WHERE offense_category = 'Violent/Safety'
-    GROUP BY percent_of_community_making_less_than_50k, location_type
+    WHERE OFFENSE_CATEGORY = 'Violent/Safety'
+    GROUP BY PERCENT_OF_COMMUNITY_MAKING_LESS_THAN_50K, LOCATION_TYPE
 ),
-RankedMetrics AS (
-    SELECT 
+
+RANKEDMETRICS AS (
+    SELECT
         *,
-        RANK() OVER(PARTITION BY percent_of_community_making_less_than_50k ORDER BY total_crimes DESC) as volume_rank,
-        RANK() OVER(PARTITION BY percent_of_community_making_less_than_50k ORDER BY unsolved_percentage DESC) as unsolved_rank
-    FROM CategoryMetrics
+        RANK()
+            OVER (
+                PARTITION BY PERCENT_OF_COMMUNITY_MAKING_LESS_THAN_50K
+                ORDER BY TOTAL_CRIMES DESC
+            )
+            AS VOLUME_RANK,
+        RANK()
+            OVER (
+                PARTITION BY PERCENT_OF_COMMUNITY_MAKING_LESS_THAN_50K
+                ORDER BY UNSOLVED_PERCENTAGE DESC
+            )
+            AS UNSOLVED_RANK
+    FROM CATEGORYMETRICS
 )
-SELECT 
-    percent_of_community_making_less_than_50k,
-    location_type,
-    total_crimes,
-    unsolved_percentage,
-    CASE 
-        WHEN volume_rank <= 2 AND unsolved_rank <= 2 THEN 'Top Volume & Top Unsolved'
-        WHEN volume_rank <= 2 THEN 'Top Volume'
-        WHEN unsolved_rank <= 2 THEN 'Top Unsolved'
-    END as insight_label
-FROM RankedMetrics
-WHERE volume_rank <= 2 OR unsolved_rank <= 2
-ORDER BY unsolved_percentage DESC;
+
+SELECT
+    PERCENT_OF_COMMUNITY_MAKING_LESS_THAN_50K,
+    LOCATION_TYPE,
+    TOTAL_CRIMES,
+    UNSOLVED_PERCENTAGE,
+    CASE
+        WHEN
+            VOLUME_RANK <= 2 AND UNSOLVED_RANK <= 2
+            THEN 'Top Volume & Top Unsolved'
+        WHEN VOLUME_RANK <= 2 THEN 'Top Volume'
+        WHEN UNSOLVED_RANK <= 2 THEN 'Top Unsolved'
+    END AS INSIGHT_LABEL
+FROM RANKEDMETRICS
+WHERE VOLUME_RANK <= 2 OR UNSOLVED_RANK <= 2
+ORDER BY UNSOLVED_PERCENTAGE DESC;
