@@ -1,3 +1,4 @@
+[![SQL Linting](https://github.com/frankiempike/chicago-crime-clearance-equity-study/actions/workflows/lint.yml/badge.svg)](https://github.com/frankiempike/chicago-crime-clearance-equity-study/actions/workflows/lint.yml)
 # Analysis of Chicago Crime Clearance Rates Across Communities, Socioeconomic Factors, and Types of Crimes (2020–2026)
 
 ## Project Overview
