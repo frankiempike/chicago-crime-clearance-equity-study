@@ -19,7 +19,8 @@ SELECT
                 'STALKING',
                 'INTIMIDATION',
                 'KIDNAPPING',
-                'HUMAN TRAFFICKING'
+                'HUMAN TRAFFICKING',
+                'CRIM SEXUAL ASSAULT'
             )
             THEN 'Violent/Safety'
         WHEN
