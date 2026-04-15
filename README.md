@@ -12,7 +12,7 @@ This project investigates the relationship between community income and crime "c
 
 ## The Data Stack
 * **Google BigQuery (SQL):** Data warehousing, ETL, and analytical querying.
-* **Looker Studio:** Data visualization and dashboarding. View dashboard with graphics [here](https://datastudio.google.com/reporting/d54f629d-f956-4378-a859-e80dfa097298) to explore the data.
+* **Looker Studio:** Data visualization and dashboarding. View the dashboard to explore the data: [![Looker Studio](https://img.shields.io/badge/Looker_Studio-Live_Dashboard-blue?logo=googlelooker&logoColor=white)]([YOUR_LOOKER_URL_HERE](https://datastudio.google.com/reporting/d54f629d-f956-4378-a859-e80dfa097298))
 
 ## Repository Structure
 The analysis is organized into a sequential pipeline:
