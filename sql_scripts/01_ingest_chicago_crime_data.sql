@@ -10,7 +10,6 @@ SELECT
             primary_type IN (
                 'HOMICIDE',
                 'ROBBERY',
-                'BURGLARY',
                 'BATTERY',
                 'ASSAULT',
                 'OFFENSE INVOLVING CHILDREN',
@@ -42,6 +41,7 @@ SELECT
         WHEN
             primary_type IN (
                 'THEFT',
+                'BURGLARY',
                 'DECEPTIVE PRACTICE',
                 'CRIMINAL DAMAGE',
                 'MOTOR VEHICLE THEFT',
