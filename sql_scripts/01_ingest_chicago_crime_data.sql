@@ -7,14 +7,45 @@ SELECT
     primary_type,
     CASE
         WHEN
-            primary_type IN ('HOMICIDE', 'ROBBERY', 'BURGLARY', 'BATTERY', 'ASSAULT', 'OFFENSE INVOLVING CHILDREN', 'CRIMINAL SEXUAL ASSAULT', 'SEX OFFENSE', 'STALKING', 'INTIMIDATION', 'KIDNAPPING', 'HUMAN TRAFFICKING')
+            primary_type IN (
+                'HOMICIDE',
+                'ROBBERY',
+                'BURGLARY',
+                'BATTERY',
+                'ASSAULT',
+                'OFFENSE INVOLVING CHILDREN',
+                'CRIMINAL SEXUAL ASSAULT',
+                'SEX OFFENSE',
+                'STALKING',
+                'INTIMIDATION',
+                'KIDNAPPING',
+                'HUMAN TRAFFICKING'
+            )
             THEN 'Violent/Safety'
         WHEN
             primary_type IN (
-                'NARCOTICS', 'PROSTITUTION', 'LIQUOR LAW VIOLATION', 'WEAPONS VIOLATION', 'CRIMINAL TRESPASS', 'PUBLIC PEACE VIOLATION', 'INTERFERENCE WITH PUBLIC OFFICER', 'CONCEALED CARRY LICENSE VIOLATION', 'OBSCENITY', 'GAMBLING', 'PUBLIC INDECENCY', 'OTHER NARCOTIC VIOLATION'
+                'NARCOTICS',
+                'PROSTITUTION',
+                'LIQUOR LAW VIOLATION',
+                'WEAPONS VIOLATION',
+                'CRIMINAL TRESPASS',
+                'PUBLIC PEACE VIOLATION',
+                'INTERFERENCE WITH PUBLIC OFFICER',
+                'CONCEALED CARRY LICENSE VIOLATION',
+                'OBSCENITY',
+                'GAMBLING',
+                'PUBLIC INDECENCY',
+                'OTHER NARCOTIC VIOLATION'
             )
             THEN 'Public Order/Non-Violent'
-        WHEN primary_type IN ('THEFT', 'DECEPTIVE PRACTICE', 'CRIMINAL DAMAGE', 'MOTOR VEHICLE THEFT', 'ARSON')
+        WHEN
+            primary_type IN (
+                'THEFT',
+                'DECEPTIVE PRACTICE',
+                'CRIMINAL DAMAGE',
+                'MOTOR VEHICLE THEFT',
+                'ARSON'
+            )
             THEN 'Property'
         ELSE 'Other'
     END AS offense_category,
